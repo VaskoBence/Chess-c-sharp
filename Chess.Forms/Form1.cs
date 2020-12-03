@@ -14,12 +14,12 @@ namespace Chess.Forms
     public partial class Form1 : Form
     {
         System.Windows.Forms.Button[,] buttons = new System.Windows.Forms.Button[8, 8];
-        public Pieces[,] pieces = new Pieces[8,8];
+        public Pieces[,] pieces = new Pieces[8, 8];
         System.Windows.Forms.Button[,] steps = new System.Windows.Forms.Button[8, 8];
-        Bitmap blades = new Bitmap(System.Drawing.Image.FromFile("..\\..\\images\\blades.png"),new Size(30,30));
+        Bitmap blades = new Bitmap(System.Drawing.Image.FromFile("..\\..\\images\\blades.png"), new Size(30, 30));
         int[] temp = new int[2];
         int[] lastMove = new int[4] { -1, -1, -1, -1 }; // 0,1 -source 0,2 - destination
-        Button[] promoteButtons = new Button[4]; 
+        Button[] promoteButtons = new Button[4];
         Pieces[] reswap = new Pieces[1]; // helping array for reswapping
         public Form1()
         {
@@ -37,7 +37,7 @@ namespace Chess.Forms
         // generating buttons
         private void boardGenerate()
         {
-         
+
             for (int i = 0; i < buttons.GetLength(0); i++)
             {
                 for (int j = 0; j < buttons.GetLength(1); j++)
@@ -56,12 +56,12 @@ namespace Chess.Forms
                     buttons[i, j].FlatAppearance.BorderSize = 0;
                     buttons[i, j].Cursor = Cursors.Hand;
                     buttons[i, j].Click += PieceChoose;
-                    buttons[i, j].BackgroundImage = new Bitmap(System.Drawing.Image.FromFile(pieces[i,j].Sign),new Size(40,40));
+                    buttons[i, j].BackgroundImage = new Bitmap(System.Drawing.Image.FromFile(pieces[i, j].Sign), new Size(40, 40));
                     buttons[i, j].BackgroundImageLayout = ImageLayout.Center;
                     buttons[i, j].Enabled = false;
                 }
             }
-            
+
         }
         // function for replay
         private void boardReset()
@@ -84,7 +84,7 @@ namespace Chess.Forms
                 {
                     steps[i, j] = new System.Windows.Forms.Button();
                     panel1.Controls.Add(steps[i, j]);
-                    steps[i, j].Location = new System.Drawing.Point((j * 50)+10, (i * 50)+10);
+                    steps[i, j].Location = new System.Drawing.Point((j * 50) + 10, (i * 50) + 10);
                     steps[i, j].UseVisualStyleBackColor = true;
                     steps[i, j].Margin = new System.Windows.Forms.Padding(0);
                     steps[i, j].Name = ("button" + ((i * 8) + (j + 1)));
@@ -104,7 +104,7 @@ namespace Chess.Forms
         private void piecesGenerate()
         {
             //black line
-            pieces[0, 0] = new Rook("Rook","Bl");
+            pieces[0, 0] = new Rook("Rook", "Bl");
             pieces[0, 1] = new Knight("Knight", "Bl");
             pieces[0, 2] = new Bishop("Bishop", "Bl");
             pieces[0, 3] = new Queen("Queen", "Bl");
@@ -117,7 +117,7 @@ namespace Chess.Forms
             {
                 for (int j = 0; j < buttons.GetLength(1); j++)
                 {
-                    pieces[i, j] = new Blank("","");
+                    pieces[i, j] = new Blank("", "");
                 }
             }
             // pawns
@@ -127,7 +127,7 @@ namespace Chess.Forms
                 pieces[6, i] = new Pawn("Pawn", "Wh");
             }
             // white line
-            pieces[7, 0] = new Rook("Rook","Wh");
+            pieces[7, 0] = new Rook("Rook", "Wh");
             pieces[7, 1] = new Knight("Knight", "Wh");
             pieces[7, 2] = new Bishop("Bishop", "Wh");
             pieces[7, 3] = new Queen("Queen", "Wh");
@@ -135,7 +135,7 @@ namespace Chess.Forms
             pieces[7, 5] = new Bishop("Bishop", "Wh");
             pieces[7, 6] = new Knight("Knight", "Wh");
             pieces[7, 7] = new Rook("Rook", "Wh");
-           
+
         }
 
         #endregion
@@ -148,9 +148,9 @@ namespace Chess.Forms
         {
             Button button = sender as Button;
             String Color = "Wh";
-            if(button.Text == "Restart")
+            if (button.Text == "Restart")
             {
-               var result = MessageBox.Show("Are you sure you want to restart the game?","",MessageBoxButtons.YesNo);
+                var result = MessageBox.Show("Are you sure you want to restart the game?", "", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
                     InfoText.Text = "White's turn!";
@@ -192,7 +192,7 @@ namespace Chess.Forms
                     }
                 }
             }
-            
+
 
             button.Text = "Restart";
         }
@@ -212,18 +212,18 @@ namespace Chess.Forms
             {
                 promotion(x, y, pieces[x, y].PieceColor);
             }
-            else if(pieces[x, y].PieceType == "Pawn" && pieces[x, y].PieceColor == "Bl" && x == 7)
+            else if (pieces[x, y].PieceType == "Pawn" && pieces[x, y].PieceColor == "Bl" && x == 7)
             {
                 promotion(x, y, pieces[x, y].PieceColor);
             }
             else
             {
-                ButtonEnable(pieces[x,y].PieceColor == "Wh"? "Bl" : "Wh");
+                ButtonEnable(pieces[x, y].PieceColor == "Wh" ? "Bl" : "Wh");
                 ButtonInvisible();
-                InfoText.Text = (pieces[x, y].PieceColor == "Wh" ? "Black" : "White")  + "'s turn!" ;
-                if(pieces[x,y].PieceType == "King" || pieces[x, y].PieceType == "King")
+                InfoText.Text = (pieces[x, y].PieceColor == "Wh" ? "Black" : "White") + "'s turn!";
+                if (pieces[x, y].PieceType == "King" || pieces[x, y].PieceType == "King")
                 {
-                    if(pieces[x,y].hasMoved == false)
+                    if (pieces[x, y].hasMoved == false)
                     {
                         pieces[x, y].hasMoved = true;
                     }
@@ -233,35 +233,40 @@ namespace Chess.Forms
                 {
                     InfoText.Text += " You are in check!";
                 }
-                if (checkMate((pieces[x, y].PieceColor == "Wh" ? "Bl" : "Wh")) == true)
+                if (checkCheck((pieces[x, y].PieceColor)) == false && checkMate((pieces[x, y].PieceColor == "Wh" ? "Bl" : "Wh")) == true)
+                {
+                    endGame("draw");
+                }
+                if (checkMate((pieces[x, y].PieceColor == "Wh" ? "Bl" : "Wh")) == true && checkCheck(pieces[x, y].PieceColor) == true)
                 {
                     endGame(pieces[x, y].PieceColor);
                 }
+
+
             }
         }
-       
         // clicking on a piece's button
         private void PieceChoose(object sender, EventArgs e)
         {
             ButtonInvisible();
             // pressed button's place in array
             Button button = sender as Button;
-            int x = (int.Parse(button.Name.Remove(0, 6)) - 1) / 8 ;
-            int y = (int.Parse(button.Name.Remove(0, 6))-1) % 8;
+            int x = (int.Parse(button.Name.Remove(0, 6)) - 1) / 8;
+            int y = (int.Parse(button.Name.Remove(0, 6)) - 1) % 8;
             temp[0] = x;
             temp[1] = y;
             // whose color is the button
-            String Color = pieces[x,y].PieceColor;
-            
+            String Color = pieces[x, y].PieceColor;
+
             //getting the valid positions
-            int[,] validMoves = pieces[x, y].validMoves(x,y, Color, pieces);
+            int[,] validMoves = pieces[x, y].validMoves(x, y, Color, pieces);
             //checking for the extra rules
             enPassant(x, y);
             castling(x, y);
             // showing the valid moves
             for (int i = 0; i < validMoves.GetLength(0); i++)
             {
-                if(validMoves[i,0]!= -1) 
+                if (validMoves[i, 0] != -1)
                 {
                     // ...check if we're still in check if we move.
                     reswap[0] = pieces[validMoves[i, 0], validMoves[i, 1]];
@@ -280,12 +285,12 @@ namespace Chess.Forms
                         pieces[x, y] = pieces[validMoves[i, 0], validMoves[i, 1]];
                         pieces[validMoves[i, 0], validMoves[i, 1]] = reswap[0];
                     }
-                    
-                    
+
+
                 }
             }
 
-           
+
 
         }
         #endregion
@@ -307,7 +312,7 @@ namespace Chess.Forms
         //writing the previous move
         private void LastMoveLabelChange()
         {
-            LastMoveLabel.Text = (Convert.ToChar(lastMove[1] + 65) + "" + Math.Abs(lastMove[0] - 8) +  " -> " + Convert.ToChar(lastMove[3] + 65) + "" + Math.Abs(lastMove[2] - 8)  );
+            LastMoveLabel.Text = (Convert.ToChar(lastMove[1] + 65) + "" + Math.Abs(lastMove[0] - 8) + " -> " + Convert.ToChar(lastMove[3] + 65) + "" + Math.Abs(lastMove[2] - 8));
         }
 
         // enable buttons for given color, disabling the others
@@ -342,14 +347,14 @@ namespace Chess.Forms
 
         #region SpecialMoves
 
-       
+
         // en passant
-        public void enPassant(int x,int y)
+        public void enPassant(int x, int y)
         {
-            if(lastMove[0]!= -1)
+            if (lastMove[0] != -1)
             {
 
-                if (pieces[lastMove[2], lastMove[3]].PieceType =="Pawn" && Math.Abs(lastMove[0]-lastMove[2]) == 2 && x == lastMove[2])
+                if (pieces[lastMove[2], lastMove[3]].PieceType == "Pawn" && Math.Abs(lastMove[0] - lastMove[2]) == 2 && x == lastMove[2])
                 {
                     if (y - 1 == lastMove[3])
                     {
@@ -365,23 +370,23 @@ namespace Chess.Forms
                     }
                 }
             }
-        }    
-        
+        }
+
         public void enPassantClick(object sender, EventArgs e)
         {
             Button button = sender as Button;
             int x = (int.Parse(button.Name.Remove(0, 6)) - 1) / 8;
             int y = (int.Parse(button.Name.Remove(0, 6)) - 1) % 8;
             int one = pieces[temp[0], temp[1]].PieceColor == "Wh" ? -1 : 1;
-            Swap(x+one, y, temp[0], temp[1]);
+            Swap(x + one, y, temp[0], temp[1]);
 
             // en passant stuff
             pieces[x, y] = new Blank("", "");
             buttons[x, y].BackgroundImage = base.BackgroundImage;
 
-            ButtonEnable(pieces[x+one, y].PieceColor == "Wh" ? "Bl" : "Wh");
+            ButtonEnable(pieces[x + one, y].PieceColor == "Wh" ? "Bl" : "Wh");
             ButtonInvisible();
-            InfoText.Text = (pieces[x+one, y].PieceColor == "Wh" ? "Black" : "White") + "'s turn";
+            InfoText.Text = (pieces[x + one, y].PieceColor == "Wh" ? "Black" : "White") + "'s turn";
             steps[lastMove[2], lastMove[3]].Click += PieceMove;
             steps[lastMove[2], lastMove[3]].Click -= enPassantClick;
 
@@ -406,7 +411,7 @@ namespace Chess.Forms
                 item.Enabled = false;
             }
             ButtonInvisible();
-            if(Color == "Wh")
+            if (Color == "Wh")
             {
                 promoteBishop.BackgroundImage = new Bitmap(System.Drawing.Image.FromFile("..\\..\\images\\WhBishop.png"), new Size(40, 40));
                 promoteKnight.BackgroundImage = new Bitmap(System.Drawing.Image.FromFile("..\\..\\images\\WhKnight.png"), new Size(40, 40));
@@ -471,21 +476,21 @@ namespace Chess.Forms
 
 
             InfoText.Text = (pieces[lastMove[2], lastMove[3]].PieceColor == "Wh" ? "Black" : "White") + "'s turn!";
-            if (pieces[lastMove[2],lastMove[3]].PieceType == "King" || pieces[lastMove[2],lastMove[3]].PieceType == "King")
+            if (pieces[lastMove[2], lastMove[3]].PieceType == "King" || pieces[lastMove[2], lastMove[3]].PieceType == "King")
             {
-                if (pieces[lastMove[2],lastMove[3]].hasMoved == false)
+                if (pieces[lastMove[2], lastMove[3]].hasMoved == false)
                 {
-                    pieces[lastMove[2],lastMove[3]].hasMoved = true;
+                    pieces[lastMove[2], lastMove[3]].hasMoved = true;
                 }
             }
             LastMoveLabelChange();
-            if (checkCheck(pieces[lastMove[2],lastMove[3]].PieceColor) == true)
+            if (checkCheck(pieces[lastMove[2], lastMove[3]].PieceColor) == true)
             {
                 InfoText.Text += " You are in check!";
             }
-            if (checkMate((pieces[lastMove[2],lastMove[3]].PieceColor == "Wh" ? "Bl" : "Wh")) == true)
+            if (checkMate((pieces[lastMove[2], lastMove[3]].PieceColor == "Wh" ? "Bl" : "Wh")) == true)
             {
-                endGame(pieces[lastMove[2],lastMove[3]].PieceColor);
+                endGame(pieces[lastMove[2], lastMove[3]].PieceColor);
             }
         }
 
@@ -493,15 +498,15 @@ namespace Chess.Forms
         // castling
         public void castling(int x, int y)
         {
-            if(pieces[x,y].PieceType == "King" && pieces[x, y].hasMoved == false)
+            if (pieces[x, y].PieceType == "King" && pieces[x, y].hasMoved == false)
             {
-                if (pieces[x, 0].PieceType == "Rook" && pieces[x, 0].hasMoved == false && pieces[x, 1].PieceType == "" && pieces[x, 2].PieceType == "" && pieces[x, 3].PieceType == "" && checkCheck(pieces[x,4].PieceColor == "Wh" ? "Bl" : "Wh") == false)
+                if (pieces[x, 0].PieceType == "Rook" && pieces[x, 0].hasMoved == false && pieces[x, 1].PieceType == "" && pieces[x, 2].PieceType == "" && pieces[x, 3].PieceType == "" && checkCheck(pieces[x, 4].PieceColor == "Wh" ? "Bl" : "Wh") == false)
                 {
                     pieces[x, 3] = pieces[x, 0];
                     pieces[x, 0] = new Blank("", "");
                     pieces[x, 2] = pieces[x, 4];
                     pieces[x, 4] = new Blank("", "");
-                    if (checkCheck(pieces[x, 2].PieceColor == "Wh" ? "Bl" : "Wh") == false) 
+                    if (checkCheck(pieces[x, 2].PieceColor == "Wh" ? "Bl" : "Wh") == false)
                     {
 
                         steps[x, 2].Visible = true;
@@ -514,7 +519,7 @@ namespace Chess.Forms
                     pieces[x, 2] = new Blank("", "");
 
                 }
-                if(pieces[x, 7].PieceType == "Rook" && pieces[x, 0].hasMoved == false && pieces[x, 6].PieceType == "" && pieces[x, 5].PieceType == "" && checkCheck(pieces[x, 4].PieceColor == "Wh" ? "Bl" : "Wh") == false) 
+                if (pieces[x, 7].PieceType == "Rook" && pieces[x, 0].hasMoved == false && pieces[x, 6].PieceType == "" && pieces[x, 5].PieceType == "" && checkCheck(pieces[x, 4].PieceColor == "Wh" ? "Bl" : "Wh") == false)
                 {
                     pieces[x, 5] = pieces[x, 7];
                     pieces[x, 7] = new Blank("", "");
@@ -535,20 +540,20 @@ namespace Chess.Forms
                 }
             }
         }
-        
-        public void castlingClick(object sender, EventArgs e) 
+
+        public void castlingClick(object sender, EventArgs e)
         {
             Button button = sender as Button;
             int x = (int.Parse(button.Name.Remove(0, 6)) - 1) / 8;
             int y = (int.Parse(button.Name.Remove(0, 6)) - 1) % 8;
             Swap(x, y, temp[0], temp[1]);
-            if(y == 6)
+            if (y == 6)
             {
-                Swap( x, 5, x, 7);
+                Swap(x, 5, x, 7);
             }
-            else if(y == 2)
+            else if (y == 2)
             {
-                Swap( x, 3, x, 0);
+                Swap(x, 3, x, 0);
             }
 
             ButtonEnable(pieces[x, y].PieceColor == "Wh" ? "Bl" : "Wh");
@@ -564,22 +569,22 @@ namespace Chess.Forms
         }
 
 
-        // check and checkmate
+        // check for check
         public bool checkCheck(String Color)
         {
             // check if the valid move's type is a king, then it's in check
-            for(int i = 0; i < pieces.GetLength(0); i++)
+            for (int i = 0; i < pieces.GetLength(0); i++)
             {
                 for (int j = 0; j < pieces.GetLength(1); j++)
                 {
-                    if(pieces[i,j].PieceColor == Color)
+                    if (pieces[i, j].PieceColor == Color)
                     {
                         int[,] validMoves = pieces[i, j].validMoves(i, j, Color, pieces);
                         for (int k = 0; k < validMoves.GetLength(0); k++)
                         {
                             if (validMoves[k, 0] != -1)
                             {
-                                if(pieces[validMoves[k, 0], validMoves[k, 1]].PieceType == "King")
+                                if (pieces[validMoves[k, 0], validMoves[k, 1]].PieceType == "King")
                                 {
                                     return true;
                                 }
@@ -592,6 +597,7 @@ namespace Chess.Forms
 
         }
 
+        // check for checkMatee
         public bool checkMate(String Color)
         {
             // check all of our pieces,...
@@ -600,7 +606,7 @@ namespace Chess.Forms
                 for (int j = 0; j < pieces.GetLength(1); j++)
                 {
                     if (pieces[i, j].PieceColor == Color)
-                    {   
+                    {
                         // ..check all pieces' valid moves,...
                         int[,] validMoves = pieces[i, j].validMoves(i, j, Color, pieces);
                         for (int k = 0; k < validMoves.GetLength(0); k++)
@@ -612,7 +618,7 @@ namespace Chess.Forms
                                 pieces[validMoves[k, 0], validMoves[k, 1]] = pieces[i, j];
                                 pieces[i, j] = new Blank("", "");
 
-                                
+
                                 if (checkCheck(Color == "Wh" ? "Bl" : "Wh") == false)
                                 {
                                     pieces[i, j] = pieces[validMoves[k, 0], validMoves[k, 1]];
@@ -636,7 +642,15 @@ namespace Chess.Forms
         // gameover
         public void endGame(String Color)
         {
-            String WinnerString = (Color == "Wh" ? "White" : "Black") + " won the game. Congratulations!";
+            String WinnerString;
+            if (Color == "draw")
+            {
+                WinnerString = "Draw";
+            }
+            else
+            {
+                WinnerString = (Color == "Wh" ? "White" : "Black") + " won the game. Congratulations!";
+            }
             for (int i = 0; i < pieces.GetLength(0); i++)
             {
                 for (int j = 0; j < pieces.GetLength(1); j++)
@@ -646,7 +660,7 @@ namespace Chess.Forms
             }
             InfoText.Text = WinnerString;
             button1.Text = "Play";
-            MessageBox.Show(WinnerString);  
+            MessageBox.Show(WinnerString);
         }
         #endregion
     }
