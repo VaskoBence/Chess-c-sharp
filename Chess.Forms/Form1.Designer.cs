@@ -56,7 +56,7 @@
             this.button1 = new System.Windows.Forms.Button();
             this.InfoText = new System.Windows.Forms.Label();
             this.label17 = new System.Windows.Forms.Label();
-            this.LastMoveLabel = new System.Windows.Forms.Label();
+            this.listBox1 = new System.Windows.Forms.ListBox();
             this.panel1.SuspendLayout();
             this.promotePanel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -356,21 +356,20 @@
             this.label17.AutoSize = true;
             this.label17.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.label17.ForeColor = System.Drawing.SystemColors.ControlLightLight;
-            this.label17.Location = new System.Drawing.Point(448, 195);
+            this.label17.Location = new System.Drawing.Point(448, 204);
             this.label17.Name = "label17";
             this.label17.Size = new System.Drawing.Size(96, 20);
             this.label17.TabIndex = 21;
             this.label17.Text = "Last move:";
             // 
-            // LastMoveLabel
+            // listBox1
             // 
-            this.LastMoveLabel.AutoSize = true;
-            this.LastMoveLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.LastMoveLabel.ForeColor = System.Drawing.SystemColors.ControlLight;
-            this.LastMoveLabel.Location = new System.Drawing.Point(550, 198);
-            this.LastMoveLabel.Name = "LastMoveLabel";
-            this.LastMoveLabel.Size = new System.Drawing.Size(0, 15);
-            this.LastMoveLabel.TabIndex = 22;
+            this.listBox1.BackColor = System.Drawing.Color.CornflowerBlue;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(452, 236);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(154, 160);
+            this.listBox1.TabIndex = 23;
             // 
             // Form1
             // 
@@ -378,7 +377,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(10)))), ((int)(((byte)(40)))), ((int)(((byte)(64)))));
             this.ClientSize = new System.Drawing.Size(634, 481);
-            this.Controls.Add(this.LastMoveLabel);
+            this.Controls.Add(this.listBox1);
             this.Controls.Add(this.label17);
             this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.InfoText);
@@ -443,7 +442,7 @@
         private System.Windows.Forms.Button promoteBishop;
         private System.Windows.Forms.Button promoteKnight;
         private System.Windows.Forms.Label label17;
-        private System.Windows.Forms.Label LastMoveLabel;
+        private System.Windows.Forms.ListBox listBox1;
     }
 }
 

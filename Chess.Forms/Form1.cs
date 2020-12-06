@@ -146,6 +146,7 @@ namespace Chess.Forms
         // MAIN FUNCTION for play button
         private void play(object sender, EventArgs e)
         {
+            
             Button button = sender as Button;
             String Color = "Wh";
             if (button.Text == "Restart")
@@ -153,6 +154,7 @@ namespace Chess.Forms
                 var result = MessageBox.Show("Are you sure you want to restart the game?", "", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
+                    listBox1.Items.Clear();
                     InfoText.Text = "White's turn!";
                     piecesGenerate();
                     boardReset();
@@ -221,14 +223,14 @@ namespace Chess.Forms
                 ButtonEnable(pieces[x, y].PieceColor == "Wh" ? "Bl" : "Wh");
                 ButtonInvisible();
                 InfoText.Text = (pieces[x, y].PieceColor == "Wh" ? "Black" : "White") + "'s turn!";
-                if (pieces[x, y].PieceType == "King" || pieces[x, y].PieceType == "King")
+                if (pieces[x, y].PieceType == "King" || pieces[x, y].PieceType == "Rook")
                 {
                     if (pieces[x, y].hasMoved == false)
                     {
                         pieces[x, y].hasMoved = true;
                     }
                 }
-                LastMoveLabelChange();
+                LastMoveListAdd(pieces[x, y].PieceColor, pieces[x, y].PieceType);
                 if (checkCheck(pieces[x, y].PieceColor) == true)
                 {
                     InfoText.Text += " You are in check!";
@@ -309,11 +311,12 @@ namespace Chess.Forms
             }
         }
 
-        //writing the previous move
-        private void LastMoveLabelChange()
+        // adding the moves to a list after a turn 
+        private void LastMoveListAdd(String Color, String Type)
         {
-            LastMoveLabel.Text = (Convert.ToChar(lastMove[1] + 65) + "" + Math.Abs(lastMove[0] - 8) + " -> " + Convert.ToChar(lastMove[3] + 65) + "" + Math.Abs(lastMove[2] - 8));
+            listBox1.Items.Add((Color == "Wh" ? "White" : "Black") + ": " + (Type) + " " + (Convert.ToChar(lastMove[1] + 65) + "" + Math.Abs(lastMove[0] - 8) + " -> " + Convert.ToChar(lastMove[3] + 65) + "" + Math.Abs(lastMove[2] - 8)));
         }
+
 
         // enable buttons for given color, disabling the others
         private void ButtonEnable(String Color)
@@ -392,9 +395,9 @@ namespace Chess.Forms
 
             lastMove[0] = temp[0];
             lastMove[1] = temp[1];
-            lastMove[2] = x;
+            lastMove[2] = x + one;
             lastMove[3] = y;
-            LastMoveLabelChange();
+            listBox1.Items.Add((pieces[x+one, y].PieceColor == "Wh" ? "White" : "Black") +  ": "+  pieces[x +one, y].PieceType + " " + (Convert.ToChar(lastMove[1] + 65) + "" + Math.Abs(lastMove[0] - 8) + " -> " + Convert.ToChar(lastMove[3] + 65) + "" + Math.Abs(lastMove[2] - 8)));
         }
 
 
@@ -474,6 +477,7 @@ namespace Chess.Forms
             promotePanel.Visible = false;
             ButtonInvisible();
 
+            listBox1.Items.Add((pieces[lastMove[2],lastMove[3]].PieceColor == "Wh" ? "White" : "Black") + ": Pawn -> " + pieces[lastMove[2], lastMove[3]].PieceType + " " + (Convert.ToChar(lastMove[1] + 65) + "" + Math.Abs(lastMove[0] - 8) + " -> " + Convert.ToChar(lastMove[3] + 65) + "" + Math.Abs(lastMove[2] - 8)));
 
             InfoText.Text = (pieces[lastMove[2], lastMove[3]].PieceColor == "Wh" ? "Black" : "White") + "'s turn!";
             if (pieces[lastMove[2], lastMove[3]].PieceType == "King" || pieces[lastMove[2], lastMove[3]].PieceType == "King")
@@ -483,7 +487,6 @@ namespace Chess.Forms
                     pieces[lastMove[2], lastMove[3]].hasMoved = true;
                 }
             }
-            LastMoveLabelChange();
             if (checkCheck(pieces[lastMove[2], lastMove[3]].PieceColor) == true)
             {
                 InfoText.Text += " You are in check!";
@@ -492,6 +495,7 @@ namespace Chess.Forms
             {
                 endGame(pieces[lastMove[2], lastMove[3]].PieceColor);
             }
+
         }
 
 
@@ -566,6 +570,7 @@ namespace Chess.Forms
             lastMove[1] = temp[1];
             lastMove[2] = x;
             lastMove[3] = y;
+            listBox1.Items.Add((pieces[x, y].PieceColor == "Wh" ? "White" : "Black") + ": " + pieces[x, y].PieceType + " " + (Convert.ToChar(lastMove[1] + 65) + "" + Math.Abs(lastMove[0] - 8) + " -> " + Convert.ToChar(lastMove[3] + 65) + "" + Math.Abs(lastMove[2] - 8)));
         }
 
 
